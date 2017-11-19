@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-11-2017 a las 18:21:22
+-- Tiempo de generación: 19-11-2017 a las 05:09:46
 -- Versión del servidor: 10.1.10-MariaDB
 -- Versión de PHP: 5.6.19
 
@@ -40,7 +40,7 @@ CREATE TABLE `calificaciones` (
 
 INSERT INTO `calificaciones` (`idCalificacion`, `idUser`, `idVideo`, `categoria`, `calificacion`) VALUES
 (1, 2, 8, 'teorico', 5),
-(2, 2, 35, 'practico', 4),
+(2, 2, 35, 'practico', 1),
 (3, 5, 10, 'teorico', 2),
 (4, 10, 87, 'ejercicios', 3),
 (5, 10, 64, 'biografias', 4),
@@ -48,7 +48,19 @@ INSERT INTO `calificaciones` (`idCalificacion`, `idUser`, `idVideo`, `categoria`
 (14, 7, 24, 'practico', 3),
 (15, 5, 65, 'biografias', 5),
 (16, 5, 47, 'documentales', 3),
-(17, 9, 17, 'teorico', 4);
+(17, 9, 17, 'teorico', 4),
+(18, 2, 26, 'practico', 5),
+(19, 6, 49, 'documentales', 5),
+(20, 3, 26, 'practico', 5),
+(21, 3, 26, 'practico', 5),
+(22, 3, 26, 'practico', 5),
+(23, 3, 26, 'practico', 5),
+(24, 3, 26, 'practico', 5),
+(25, 3, 26, 'practico', 5),
+(26, 3, 26, 'practico', 5),
+(27, 3, 30, 'practico', 4),
+(28, 3, 30, 'practico', 3),
+(29, 3, 26, 'practico', 4);
 
 -- --------------------------------------------------------
 
@@ -71,7 +83,7 @@ CREATE TABLE `emociones` (
 INSERT INTO `emociones` (`idEmocion`, `idUser`, `idVideo`, `categoria`, `emocion`) VALUES
 (1, 2, 11, 'teorico', 'neutral'),
 (2, 2, 90, 'ejercicios', 'entretenido'),
-(3, 2, 70, 'biografias', 'entretenido'),
+(3, 2, 70, 'biografias', 'aburrido'),
 (4, 2, 50, 'documentales', 'aburrido'),
 (5, 2, 30, 'practico', 'aburrido'),
 (6, 2, 10, 'teorico', 'entretenido'),
@@ -118,7 +130,24 @@ INSERT INTO `emociones` (`idEmocion`, `idUser`, `idVideo`, `categoria`, `emocion
 (47, 3, 5, 'teorico', 'entretenido'),
 (48, 2, 5, 'teorico', 'entretenido'),
 (49, 2, 5, 'teorico', 'entretenido'),
-(50, 2, 5, 'teorico', 'entretenido');
+(50, 2, 5, 'teorico', 'entretenido'),
+(51, 3, 8, 'teorico', 'aburrido'),
+(52, 3, 49, 'documentales', 'entretenido'),
+(53, 3, 89, 'ejercicios', 'entretenido'),
+(54, 3, 70, 'biografias', 'neutral'),
+(55, 3, 48, 'documentales', 'entretenido'),
+(56, 3, 68, 'biografias', 'neutral'),
+(57, 3, 28, 'practico', 'entretenido'),
+(58, 3, 8, 'teorico', 'aburrido'),
+(59, 3, 26, 'practico', 'aburrido'),
+(60, 3, 26, 'practico', 'entretenido'),
+(61, 3, 49, 'documentales', 'aburrido'),
+(62, 3, 49, 'documentales', 'entretenido'),
+(63, 3, 49, 'documentales', 'entretenido'),
+(64, 3, 88, 'ejercicios', 'entretenido'),
+(65, 3, 26, 'practico', 'neutral'),
+(66, 3, 26, 'practico', 'neutral'),
+(67, 3, 26, 'practico', 'neutral');
 
 -- --------------------------------------------------------
 
@@ -177,7 +206,7 @@ INSERT INTO `videos` (`idVideo`, `name`, `descripcion`, `categoria`, `urlVideo`)
 (5, 'IMS Protocols', 'IMS Protocols', 'teorico', 'IMSProtocols'),
 (6, 'IMS Based VoiceS ervice', 'IMS Based Voice Service', 'teorico', 'IMSBasedVoiceService'),
 (7, 'What Is NFV', 'What Is NFV', 'teorico', 'WhatIsNFV'),
-(8, 'Virtualización De Red', 'Virtualización De Red', 'teorico', 'VirtualizaciónDeRed'),
+(8, 'Virtualizacion De Red', 'Virtualización De Red', 'teorico', 'VirtualizacionDeRed'),
 (9, 'NFV How It Works', 'NFV How It Works', 'teorico', 'NFVHowItWorks'),
 (10, 'Que Es WiFi', 'Que Es WiFi', 'teorico', 'QueEsWiFi'),
 (11, 'Canales Wifi', 'Canales Wifi', 'teorico', 'CanalesWifi'),
@@ -307,12 +336,12 @@ ALTER TABLE `videos`
 -- AUTO_INCREMENT de la tabla `calificaciones`
 --
 ALTER TABLE `calificaciones`
-  MODIFY `idCalificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idCalificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT de la tabla `emociones`
 --
 ALTER TABLE `emociones`
-  MODIFY `idEmocion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `idEmocion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --

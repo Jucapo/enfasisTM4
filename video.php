@@ -27,7 +27,6 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
     $urlPrincipal = $dataVideo1['urlVideo'];
 }
 
-
 ?>
 <html>
     <head>
@@ -42,7 +41,7 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
        
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-        <script type="text/javascript" src="video.js"></script>      
+        <!-- <script type="text/javascript" src="video.js"></script>       -->
         <script src="dist/js/calificacion/star-rating.min.js"></script>
 
         <script type="text/javascript">
@@ -232,13 +231,11 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                                     <!-- User image -->
                                     <li class="user-header">
                                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
                                         <p>
                                             <?php echo $_SESSION['name'] . " " . $_SESSION['lastName']; ?>
                                             <small></small>
                                         </p>
                                     </li>
-
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
@@ -251,10 +248,8 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                                 </ul>
                             </li>
                             <!-- Control Sidebar Toggle Button -->
-
                         </ul>
                     </div>
-
                 </nav>
             </header>
 
@@ -281,21 +276,15 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                     </div>
 
                     <!-- sidebar menu: : style can be found in sidebar.less -->
-
-
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU DE NAVEGACION</li>
-
-
                         <li>
-                            <a href="#" id="btn_Home_3">
+                            <a href="inicioUsuario.php" id="btn_Home_3">
                                 <i class="fa fa-university"></i> <span>Inicio</span>
                     <span class="pull-right-container">  
                     </span>
                             </a>
                         </li>
-
-
                         <li>
                             <a href="perfil.html">
                                 <i class="fa fa-user"></i>
@@ -357,25 +346,10 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                 </section>
 
 
-                <!----------------------------------  COLUMNA  ------------------------------------>
 
                 <!-- Main content -->
                 <section class="content">
 
-                    <!------------- Encabezado imagen seccion Video
-                    <div class="box box-widget widget-user">
-
-                        <div class="widget-user-header bg-black"
-                            style="background: url('dist/img/user8-128x128.jpg') center center;">
-
-
-                            <h3 class="widget-user-username">VIDEO</h3>
-                            <h5 class="widget-user-desc">Enfasis 4 - Telematica</h5>
-
-                        </div>
-
-                    </div>
-                    ----------------------->
 
 
                     <div class="row">
@@ -398,13 +372,6 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                                     <button id="play" onclick="vidplay()">&gt;</button>	
                                 </div>		                               -->
                             </div>
-
-                                <script>
-                                    var videoP = document.getElementById("id_videoPrincipal");
-                                    videoP.onended = function() {
-                                        javascript:hola();
-                                    };
-                                </script>
 
                                 <div class="box box-solid">
 
@@ -454,10 +421,274 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                             <!------------Videos recomendados---------------------------->
 
                             <?php
-                            $idVideo_temp1 = 1;
-                            $idVideo_temp2 = 3;
-                            $idVideo_temp3 = 4;
-                            $idVideo_temp4 = 5;
+
+                            //____________________________________________________________________________
+
+                            include ("conexion.php");                            
+                            include ("./DataBase/conexion.php");
+
+                            //se  define la variable para conectar a la  BD
+                            $mysqli = new mysqli($host, $user, $pw, $db);
+
+                            //se  realiza la consulta de emociones de un usuairo para el video actual
+                            $sql = "SELECT * FROM emociones WHERE idUser='$idUser' AND idVideo='$idVideo_temp'";
+                            $result = $mysqli->query($sql);
+
+                            //se  realiza la consulta de emociones de un usuairo para la categorial Teorico
+                            $sql1 = "SELECT * FROM emociones WHERE idUser='$idUser' AND categoria='teorico' order by idEmocion DESC";
+                            $result1 = $mysqli->query($sql1);
+
+                            //se  realiza la consulta de emociones de un usuairo para la categorial Practico
+                            $sql2 = "SELECT * FROM emociones WHERE idUser='$$idUser' AND categoria='practico' order by idEmocion DESC";
+                            $result2 = $mysqli->query($sql2);
+
+                            //se  realiza la consulta de emociones de un usuairo para la categorial Ejercicios
+                            $sql3 = "SELECT * FROM emociones WHERE idUser='$idUser' AND categoria='ejercicios' order by idEmocion DESC";
+                            $result3 = $mysqli->query($sql3);
+
+                            //se  realiza la consulta de emociones de un usuairo para la categorial Documentales
+                            $sql4 = "SELECT * FROM emociones WHERE idUser='$idUser' AND categoria='documentales' order by idEmocion DESC";
+                            $result4 = $mysqli->query($sql4);
+
+                            //se  realiza la consulta de emociones de un usuairo para la categorial Biografias
+                            $sql5 = "SELECT * FROM emociones WHERE idUser='$idUser' AND categoria='biografias' order by idEmocion DESC";
+                            $result5 = $mysqli->query($sql5);
+
+                            //Video actual
+                            $numero_filas = $result->num_rows;
+                            $pesoTotal=0;
+
+                            while($row = $result->fetch_array(MYSQLI_NUM))
+                            {
+                                $emocionV = $row[4];								
+                            }
+
+                            echo '
+                            <h1><center>Sistema de Recomendaciones</center></h1>
+                            <h4><center>Calificación del Video Actual: '.$emocionV.'</center></h4>';
+
+                            $numero_filas1 = $result1->num_rows;
+                            $numero_filas2 = $result2->num_rows;
+                            $numero_filas3 = $result3->num_rows;
+                            $numero_filas4 = $result4->num_rows;
+                            $numero_filas5 = $result5->num_rows;
+
+                            //Categoría Teórico
+                            if($numero_filas1==0){
+                                $promedio1=1;
+                                echo '
+                                <h4><center>Calificación categoría Teórico no se ha evaluado</center></h4>';
+                            } else{
+                                $pesoTotal=0;
+                                while($row = $result1->fetch_array(MYSQLI_NUM))
+                                { 
+                                    $emocion = $row[4];			
+                                    if ($emocion =="aburrido")
+                                        $pesoT=0;
+                                    if ($emocion =="neutral")
+                                         $pesoT=1;
+                                    if ($emocion =="entretenido")
+                                        $pesoT=3;				
+                                    $pesoTotal = $pesoT + $pesoTotal;			
+                                    }
+                                    $promedio1 = $pesoTotal/$numero_filas1;
+                                    echo '
+                                    <h4><center>Calificación categoría Teórico: '.$promedio1.'</center></h4>';
+                                }
+
+                            //Categoría práctico
+                            if($numero_filas2==0){
+                                $promedio2=1;
+                                echo '
+                                <h4><center>Calificación categoría Práctico no se ha evaluado</center></h4>';
+                                } 
+                            else{
+                                $pesoTotal=0;
+                                while($row = $result2->fetch_array(MYSQLI_NUM))
+                                    {
+                                    $emocion = $row[4];			
+                                    if ($emocion =="aburrido")
+                                        $pesoT=0;
+                                    if ($emocion =="neutral")
+                                        $pesoT=1;
+                                    if ($emocion =="entretenido")
+                                        $pesoT=3;				
+                                    $pesoTotal = $pesoT + $pesoTotal;			
+                                }
+                                $promedio2 = $pesoTotal/$numero_filas2;
+                                echo '
+                                <h4><center>Calificación categoría Práctico: '.$promedio2.'</center></h4>';
+                            }
+
+                            //Categoría Ejercicos
+                            if($numero_filas3==0){
+                                $promedio3=1;
+                                echo '
+                                <h4><center>Calificación categoría Ejercicos no se ha evaluado</center></h4>';
+                            } 
+                            else{
+                                $pesoTotal=0;
+                                while($row = $result3->fetch_array(MYSQLI_NUM))
+                                {
+                                    $emocion = $row[4];			
+                                    if ($emocion =="aburrido")
+                                        $pesoT=0;
+                                    if ($emocion =="neutral")
+                                        $pesoT=1;
+                                    if ($emocion =="entretenido")
+                                        $pesoT=3;				
+                                    $pesoTotal = $pesoT + $pesoTotal;			
+                                }
+                                $promedio3 = $pesoTotal/$numero_filas3;
+                                echo '
+                                <h4><center>Calificación categoría Ejercicios: '.$promedio3.'</center></h4>';
+                            }
+
+                            //Categoría Documentales
+                            if($numero_filas4==0){
+                                $promedio4=1;
+                                echo '
+                                <h4><center>Calificación categoría Documentales no se ha evaluado</center></h4>';
+                            } 
+                            else{
+                            $pesoTotal=0;
+                            while($row = $result4->fetch_array(MYSQLI_NUM))
+                            {
+                                $emocion = $row[4];			
+                                if ($emocion =="aburrido")
+                                    $pesoT=0;
+                                if ($emocion =="neutral")
+                                    $pesoT=1;
+                                if ($emocion =="entretenido")
+                                    $pesoT=3;				
+                                $pesoTotal = $pesoT + $pesoTotal;			
+                            }
+                            $promedio4 = $pesoTotal/$numero_filas4;
+                            echo '
+                            <h4><center>Calificación categoría Documentales: '.$promedio4.'</center></h4>';
+                            }
+
+                            //Categoría Biografías
+                            if($numero_filas5==0){
+                                $promedio5=1;
+                                echo '
+                                <h4><center>Calificación categoria Biografías no se ha Evaluado</center></h4>';
+                            } 
+                            else{
+                                $pesoTotal=0;
+                                while($row = $result5->fetch_array(MYSQLI_NUM))
+                                    {
+                                    $emocion = $row[4];			
+                                    if ($emocion =="aburrido")
+                                        $pesoT=0;
+                                    if ($emocion =="neutral")
+                                        $pesoT=1;
+                                    if ($emocion =="entretenido")
+                                        $pesoT=3;				
+                                    $pesoTotal = $pesoT + $pesoTotal;			
+                                }
+                                $promedio5 = $pesoTotal/$numero_filas5;
+                                echo '
+                                <h4><center>Calificación Categoría Biografías: '.$promedio5.'</center></h4>';
+                            }
+
+                            //Seleccción de la categoria mejor calificada para el usuario
+                            $mayor=$promedio1;
+                            $recomendacion = "TEORICO";
+                            if($mayor<$promedio2){
+                                $mayor=$promedio2;
+                                $recomendacion = "PRACTICO";
+                            }
+                            if($mayor<$promedio3){
+                                $mayor=$promedio3;
+                                $recomendacion = "EJERCICIOS";
+                            }
+                            if($mayor<$promedio4){
+                                $mayor=$promedio4;
+                                $recomendacion = "DOCUMENTALES";
+                            }
+                            if($mayor<$promedio5){
+                                $mayor=$promedio5;
+                                $recomendacion = "BIOGRAFIAS";
+                            }
+
+                            //______________________________________________________
+                            if($emocionV=="aburrido"){
+                                if($recomendacion == "teorico"){
+                                    $idVideo_temp1 = 3;
+                                    $idVideo_temp2 = 8;
+                                    $idVideo_temp3 = 13;
+                                    $idVideo_temp4 = 15;
+                                }
+                                if($recomendacion == "practico"){
+                                    $idVideo_temp1 = 21;
+                                    $idVideo_temp2 = 28;
+                                    $idVideo_temp3 = 31;
+                                    $idVideo_temp4 = 35;
+                                    }
+                                if($recomendacion == "documentales"){
+                                    $idVideo_temp1 = 41;
+                                    $idVideo_temp2 = 56;
+                                    $idVideo_temp3 = 54;
+                                    $idVideo_temp4 = 55;
+                                    }
+                                if($recomendacion == "biografias"){
+                                    $idVideo_temp1 = 78;
+                                    $idVideo_temp2 = 66;
+                                    $idVideo_temp3 = 71;
+                                    $idVideo_temp4 = 65;
+                                    }
+                                if($recomendacion == "ejercicios"){
+                                    $idVideo_temp1 = 88;
+                                    $idVideo_temp2 = 89;
+                                    $idVideo_temp3 = 97;
+                                    $idVideo_temp4 = 95;
+                                    }
+
+                            }
+                            else{
+                                if($categoriaPrincipal == "teorcio"){
+                                    $idVideo_temp1 = 1;
+                                    $idVideo_temp2 = 9;
+                                    $idVideo_temp3 = 17;
+                                    $idVideo_temp4 = 19;
+                                }
+
+                                if($categoriaPrincipal == "practico"){
+                                    $idVideo_temp1 = 28;
+                                    $idVideo_temp2 = 26;
+                                    $idVideo_temp3 = 38;
+                                    $idVideo_temp4 = 31;
+                                    }
+                                if($categoriaPrincipal == "documentales"){
+                                    $idVideo_temp1 = 51;
+                                    $idVideo_temp2 = 57;
+                                    $idVideo_temp3 = 59;
+                                    $idVideo_temp4 = 54;
+                                    }
+                                if($categoriaPrincipal == "biografias"){
+                                    $idVideo_temp1 = 77;
+                                    $idVideo_temp2 = 64;
+                                    $idVideo_temp3 = 73;
+                                    $idVideo_temp4 = 69;
+                                    }
+                                if($categoriaPrincipal == "ejercicios"){
+                                    $idVideo_temp1 = 81;
+                                    $idVideo_temp2 = 83;
+                                    $idVideo_temp3 = 91;
+                                    $idVideo_temp4 = 96;
+                                    }
+                        }
+
+                        if($emocionV=="aburrido"){
+                            echo '
+                            <h4><center>No se recomienda esta categoria</center></h4>
+                            <h4><center>Se recomiendo la Categoria: '.$recomendacion.'</center></h4>';
+                        }
+                        else{ // la categoria actual esta bien
+                            echo '
+                            <h4><center>SE RECOMIENDA LA CATEGORIA ACTUAL</center></h4>';				
+                        }
 
 
                             $A1_video1 = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_temp1'");
@@ -520,10 +751,13 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                                                         src="videos/<?php echo $categoria_Rec1; ?>/<?php echo $url_Rec1; ?>.mp4"
                                                         type="video/mp4">
                                             </video>
-                                            <button id="btn_play_video_rec1" type="button" class="btn bg-orange btn-flat margin"
-                                                    style="text-align: left;">Play
+                                           
+                                            <a href="video.php?idVideo=<?php echo $idVideo_Rec1; ?>" id="btn_play_video_rec1" type="button" class="btn bg-orange btn-flat margin"
+                                                style="text-align: left;">Play
                                                 <i class="fa fa-play"></i>
-                                            </button><?php echo $name_Rec1; ?>
+                                            </a>
+                                            
+                                            <?php echo $name_Rec1; ?>
                                         </div>
                                         <!------------Fin Videos 1 recomendado ---------------------------->
                                         <!------------Videos 2 recomendado ---------------------------->
@@ -533,10 +767,11 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                                                         src="videos/<?php echo $categoria_Rec2; ?>/<?php echo $url_Rec2; ?>.mp4"
                                                         type="video/mp4">
                                             </video>
-                                            <button id="btn_play_video_rec2" type="button" class="btn bg-orange btn-flat margin"
-                                                    style="text-align: left;">Play
+                                            <a href="video.php?idVideo=<?php echo $idVideo_Rec2; ?>" id="btn_play_video_rec1" type="button" class="btn bg-orange btn-flat margin"
+                                                style="text-align: left;">Play
                                                 <i class="fa fa-play"></i>
-                                            </button><?php echo $name_Rec2; ?>
+                                            </a>
+                                            <?php echo $name_Rec2; ?>
                                         </div>
                                         <!------------Fin Videos 2 recomendado ---------------------------->
                                         <!------------Videos 3 recomendado ---------------------------->
@@ -546,10 +781,12 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                                                         src="videos/<?php echo $categoria_Rec3; ?>/<?php echo $url_Rec3; ?>.mp4"
                                                         type="video/mp4">
                                             </video>
-                                            <button id="btn_play_video_rec3" type="button" class="btn bg-orange btn-flat margin"
-                                                    style="text-align: left;">Play
+
+                                            <a href="video.php?idVideo=<?php echo $idVideo_Rec3; ?>" id="btn_play_video_rec1" type="button" class="btn bg-orange btn-flat margin"
+                                                style="text-align: left;">Play
                                                 <i class="fa fa-play"></i>
-                                            </button><?php echo $name_Rec3; ?>
+                                            </a>
+                                            <?php echo $name_Rec3; ?>
                                         </div>
                                         <!------------Fin Videos 3 recomendado ---------------------------->
                                         <!------------Videos 4 recomendado ---------------------------->
@@ -559,10 +796,12 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
                                                         src="videos/<?php echo $categoria_Rec4; ?>/<?php echo $url_Rec4; ?>.mp4"
                                                         type="video/mp4">
                                             </video>
-                                            <button id="btn_play_video_rec4" type="button" class="btn bg-orange btn-flat margin"
-                                                    style="text-align: left;">Play
+                                            
+                                            <a href="video.php?idVideo=<?php echo $idVideo_Rec4; ?>" id="btn_play_video_rec1" type="button" class="btn bg-orange btn-flat margin"
+                                                style="text-align: left;">Play
                                                 <i class="fa fa-play"></i>
-                                            </button><?php echo $name_Rec4; ?>
+                                            </a>
+                                        <?php echo $name_Rec4; ?>
                                         </div>
                                         <!------------Fin Videos 4 recomendado ---------------------------->
 
@@ -1013,7 +1252,7 @@ if ($dataVideo1 = mysqli_fetch_assoc($A1_video1)) {
         var idEmocion = 0;
         var idUser = <?php echo''.$idUser.''; ?>;
         var idVideo = <?php echo''.$idVideo_temp.''; ?>;
-        var categoria = "teorico";
+        var categoria = "<?php echo''.$categoriaPrincipal .''; ?>";
         document.getElementsByName("categoria").value = categoria;
         var emocion = 0;
 

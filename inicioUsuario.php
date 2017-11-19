@@ -34,14 +34,7 @@ if (@!$_SESSION['idUser']) {
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
-    <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
@@ -524,7 +517,7 @@ if (@!$_SESSION['idUser']) {
                     <div class="box">
 
                         <div class="box-header with-border">
-                            <h3 class="box-title">RECOMENDADOS PARA TI</h3>
+                            <h3 class="box-title">VIDEOS MEJOR CALIFICADOS</h3>
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -538,16 +531,51 @@ if (@!$_SESSION['idUser']) {
                             <div class="row">
 
                                 <?php
-                                include("conexion.php");
+                                include("./DataBase/conexion.php");
+                                include ("conexion.php");
+                                $mysqli = new mysqli($host, $user, $pw, $db);
 
-                                //$A1_video_1_temp=mysqli_query($conn,"SELECT * FROM calificaciones ORDER BY calificacion DESC LIMIT 1");
-                                //if($dataVideo1_temp=mysqli_fetch_assoc($A1_video_1_temp)){
+                                $sql1 = "SELECT idVideo FROM calificaciones WHERE calificacion = (SELECT MAX(calificacion) FROM calificaciones ) AND categoria='teorico' ";
+                                $result1 = $mysqli->query($sql1);	
+                                while($row = $result1->fetch_array(MYSQLI_NUM))
+                                {
+                                    $idVideoRecTeorico= $row[0];	
+                                }
+
+                                $sql2 = "SELECT idVideo FROM calificaciones WHERE calificacion = (SELECT MAX(calificacion) FROM calificaciones ) AND categoria='practico' ";
+                                $result2 = $mysqli->query($sql2);
+                                while($row = $result2->fetch_array(MYSQLI_NUM))
+                                {
+                                    $idVideoRecPractico= $row[0];	
+                                }	
+
+                                $sql3 = "SELECT idVideo FROM calificaciones WHERE calificacion = (SELECT MAX(calificacion) FROM calificaciones ) AND categoria='ejercicios' ";
+                                $result3 = $mysqli->query($sql3);	
+                                while($row = $result3->fetch_array(MYSQLI_NUM))
+                                {
+                                    $idVideoRecEjercicios= $row[0];	
+                                }
+
+                                $sql4 = "SELECT idVideo FROM calificaciones WHERE calificacion = (SELECT MAX(calificacion) FROM calificaciones ) AND categoria='documentales' ";
+                                $result4 = $mysqli->query($sql4);	
+                                while($row = $result4->fetch_array(MYSQLI_NUM))
+                                {
+                                    $idVideoRecDocumentales= $row[0];	
+                                }
+
+                                $sql5 = "SELECT idVideo FROM calificaciones WHERE calificacion = (SELECT MAX(calificacion) FROM calificaciones) AND categoria='biografias' ";
+                                $result5 = $mysqli->query($sql5);	
+                                while($row = $result5->fetch_array(MYSQLI_NUM))
+                                {
+                                    $idVideoRecBiografias= $row[0];	
+                                }
+
 
                                 //$idVideo_1_temp = $dataVideo1_temp['idVideo'];
-                                $idVideo_1_temp = 5;
-                                $idVideo_2_temp = 4;
-                                $idVideo_3_temp = 3;
-                                $idVideo_4_temp = 2;
+                                $idVideo_1_temp = $idVideoRecTeorico;
+                                $idVideo_2_temp = $idVideoRecPractico;
+                                $idVideo_3_temp = $idVideoRecDocumentales;
+                                $idVideo_4_temp = $idVideoRecBiografias;
 
                                 $A1_video1 = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_1_temp' ");
                                 $A1_video2 = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_2_temp' ");
@@ -640,6 +668,8 @@ if (@!$_SESSION['idUser']) {
                                         <i class="fa fa-play"></i>
                                     </a><?php echo $name_4; ?>
                                 </div>
+
+                                
                             </div>
                         </div>
 
@@ -817,10 +847,10 @@ if (@!$_SESSION['idUser']) {
                                 //if($dataVideo1_temp=mysqli_fetch_assoc($A1_video_1_temp)){
 
                                 //$idVideo_1_temp = $dataVideo1_temp['idVideo'];
-                                $idVideo_1_practico = 8;
-                                $idVideo_2_practico = 9;
-                                $idVideo_3_practico = 10;
-                                $idVideo_4_practico = 11;
+                                $idVideo_1_practico = 28;
+                                $idVideo_2_practico = 29;
+                                $idVideo_3_practico = 30;
+                                $idVideo_4_practico = 31;
 
                                 $A1_video1_practico  = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_1_practico' ");
                                 $A1_video2_practico   = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_2_practico' ");
@@ -933,7 +963,7 @@ if (@!$_SESSION['idUser']) {
 
 
                         <div class="box-header with-border">
-                            <h3 class="box-title">Ejercicios</h3>
+                            <h3 class="box-title">EJERCICIOS</h3>
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -953,10 +983,10 @@ if (@!$_SESSION['idUser']) {
                                 //if($dataVideo1_temp=mysqli_fetch_assoc($A1_video_1_temp)){
 
                                 //$idVideo_1_temp = $dataVideo1_temp['idVideo'];
-                                $idVideo_1_ejercicios = 8;
-                                $idVideo_2_ejercicios = 9;
-                                $idVideo_3_ejercicios = 10;
-                                $idVideo_4_ejercicios = 11;
+                                $idVideo_1_ejercicios = 88;
+                                $idVideo_2_ejercicios = 89;
+                                $idVideo_3_ejercicios = 90;
+                                $idVideo_4_ejercicios = 91;
 
                                 $A1_video1_ejercicios  = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_1_ejercicios' ");
                                 $A1_video2_ejercicios   = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_2_ejercicios' ");
@@ -1069,7 +1099,7 @@ if (@!$_SESSION['idUser']) {
 
 
                         <div class="box-header with-border">
-                            <h3 class="box-title">Documentales</h3>
+                            <h3 class="box-title">DOCUMENTALES</h3>
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -1089,10 +1119,10 @@ if (@!$_SESSION['idUser']) {
                                 //if($dataVideo1_temp=mysqli_fetch_assoc($A1_video_1_temp)){
 
                                 //$idVideo_1_temp = $dataVideo1_temp['idVideo'];
-                                $idVideo_1_documentales = 8;
-                                $idVideo_2_documentales = 9;
-                                $idVideo_3_documentales = 10;
-                                $idVideo_4_documentales = 11;
+                                $idVideo_1_documentales = 48;
+                                $idVideo_2_documentales = 49;
+                                $idVideo_3_documentales = 50;
+                                $idVideo_4_documentales = 51;
 
                                 $A1_video1_documentales  = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_1_documentales' ");
                                 $A1_video2_documentales   = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_2_documentales' ");
@@ -1225,10 +1255,10 @@ if (@!$_SESSION['idUser']) {
                                 //if($dataVideo1_temp=mysqli_fetch_assoc($A1_video_1_temp)){
 
                                 //$idVideo_1_temp = $dataVideo1_temp['idVideo'];
-                                $idVideo_1_biografias = 8;
-                                $idVideo_2_biografias = 9;
-                                $idVideo_3_biografias = 10;
-                                $idVideo_4_biografias = 11;
+                                $idVideo_1_biografias = 67;
+                                $idVideo_2_biografias = 58;
+                                $idVideo_3_biografias = 59;
+                                $idVideo_4_biografias = 63;
 
                                 $A1_video1_biografias  = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_1_biografias' ");
                                 $A1_video2_biografias   = mysqli_query($conn, "SELECT * FROM videos WHERE idVideo='$idVideo_2_biografias' ");
